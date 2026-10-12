@@ -1,6 +1,7 @@
 import {expect, test} from '@playwright/test'
 import registrationdata from '../../testdata/register.json'
 import { register } from '../../pages/registration'
+import { random } from '../../utils/random'
 
 
 test('registration',async ({page}) => {
@@ -11,8 +12,8 @@ test('registration',async ({page}) => {
     await page.getByRole('link',{name:' Signup / Login'}).click()
     await expect(page.getByRole('heading',{name:'New User Signup!'})).toBeVisible()
     await page.getByRole('textbox',{name:'Name'}).fill('bhanu')
-    await page.reload()
-    await page.locator('//input[@data-qa="signup-email"]').fill('bhanug940@gmail.com')
+    let email = `bhanu${random()}@gmail.com`
+    await page.locator('//input[@data-qa="signup-email"]').fill(email)
     await page.getByRole('button',{name:'Signup'}).click()
     await expect(page.locator('//b[text()="Enter Account Information"]')).toContainText('Enter Account Information')
     await page.getByRole('textbox',{name:'Password *'}).fill('123456')
@@ -40,8 +41,8 @@ test('registration with ddt',async ({page}) => {
     await page.getByRole('link',{name:' Signup / Login'}).click()
     await expect(page.getByRole('heading',{name:'New User Signup!'})).toBeVisible()
     await page.getByRole('textbox',{name:'Name'}).fill(registrationdata.username)
-    await page.reload()
-    await page.locator('//input[@data-qa="signup-email"]').fill(registrationdata.email)
+    let email = `bhanu${random()}@gmail.com`
+    await page.locator('//input[@data-qa="signup-email"]').fill(email)
     await page.getByRole('button',{name:'Signup'}).click()
     await expect(page.locator('//b[text()="Enter Account Information"]')).toContainText('Enter Account Information')
     await page.getByRole('textbox',{name:'Password *'}).fill(registrationdata.password)
@@ -65,8 +66,9 @@ test('registration with POM',async ({page}) => {
     test.slow()
     let pomobj = new register(page)
     await pomobj.launch(registrationdata.url)
+    let email = `bhanu${random()}@gmail.com`
     await pomobj.actions(registrationdata.username,
-        registrationdata.email,
+        email,
         registrationdata.password,
         registrationdata.firstname,
         registrationdata.lastname,
