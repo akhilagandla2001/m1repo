@@ -61,7 +61,7 @@ test('registration with ddt',async ({page}) => {
     await page.getByRole('link',{name:'Continue'}).click()
 })
 
-test.only('registration with POM',async ({page}) => {
+test('registration with POM',async ({page}) => {
     test.slow()
     let pomobj = new register(page)
     await pomobj.launch(registrationdata.url)
